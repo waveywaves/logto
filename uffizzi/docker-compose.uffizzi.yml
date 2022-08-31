@@ -1,0 +1,28 @@
+# This compose file is for demonstration only, do not use in prod.
+version: "3.9"
+
+x-uffizzi:
+  ingress:
+    service: app
+    port: 3001
+
+services:
+  app:
+    depends_on:
+      - "postgres"
+    image: ${LOGTO_IMAGE}
+    ports:
+      - 3001:3001
+    environment:
+      ALL_YES: 1
+      NO_INQUIRY: 0
+      TRUST_PROXY_HEADER: 1
+      DB_URL_DEFAULT: postgres://postgres:p0stgr3s@localhost:5432
+  
+  postgres:
+    image: postgres:14-alpine
+    user: postgres
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "p0stgr3s"
+
